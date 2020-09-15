@@ -26,8 +26,12 @@ class LoginPage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  CustomInput(),
-                  CustomInput(),
+                  CustomInput(
+                    hintText: "Email...",
+                  ),
+                  CustomInput(
+                    hintText: "Password...",
+                  ),
                   CustomBtn(
                     text: "Login",
                     onPressed: () {
