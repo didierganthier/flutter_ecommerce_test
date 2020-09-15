@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/screens/register_page.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_btn.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_input.dart';
 
@@ -48,7 +49,7 @@ class LoginPage extends StatelessWidget {
                 child: CustomBtn(
                   text: "Create New Account",
                   onPressed: () {
-                    print("Clicked the Create Account Button");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
                   },
                   outlineBtn: true,
                 ),
