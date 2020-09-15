@@ -10,6 +10,6 @@ class HomePage extends StatelessWidget {
           child: Text("Firebase App Initialized", style: Constants.regularHeading,),
         ),
       ),
-    )
+    );
   }
 }
