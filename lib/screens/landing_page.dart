@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/screens/home_page.dart';
 
 class LandingPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -16,13 +17,7 @@ class LandingPage extends StatelessWidget {
           );
         }
         if(snapshot.connectionState == ConnectionState.done){
-          return Scaffold(
-            body: Container(
-              child: Center(
-                child: Text("Firebase App Initialized", style: Constants.regularHeading,),
-              ),
-            ),
-          );
+          return HomePage();
         }
         return Scaffold(
           body: Container(
