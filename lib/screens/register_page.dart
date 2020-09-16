@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_btn.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_input.dart';
@@ -11,18 +13,24 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
 
   //Build an alert dialog to display some errors
-  Future<void> _alertDialogBuilder() async {
+  Future<void> _alertDialogBuilder(String error) async {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15)
+          ),
           title: Text("Error"),
           content: Container(
-            child: Text("Just some random text for now"),
+            child: Text(error),
           ),
           actions: [
             FlatButton(
+              splashColor: Colors.green,
+              shape: StadiumBorder(),
+              color: Colors.red,
               child: Text("Close Dialog"),
               onPressed:(){
                 Navigator.pop(context);
@@ -32,6 +40,43 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       },
     );
+  }
+
+  //Create a new user account
+  Future <String> createAccount () async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _registerEmail, password: _registerPassword);
+      return null;
+    } on FirebaseAuthException catch(e) {
+      if(e.code == "week-password"){
+        return "The password provided is too weak";
+      }
+      else if(e.code == "email-already-in-use"){
+        return "The account already exists for that email";
+      }
+      return e.message;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  void _submitForm() async{
+    //set the form to loading state
+    setState(() {
+      _registerFormLoading = true;
+    });
+
+    //Run the create account method
+    String _createAccountFeedback = await createAccount();
+    if(_createAccountFeedback != null) {
+      _alertDialogBuilder(_createAccountFeedback);
+      //set the form to regular state [not loading]
+      setState(() {
+        _registerFormLoading = false;
+      });
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   //Default form loading state
@@ -98,14 +143,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         _registerPassword = value;
                       });
                     },
+                    onSubmitted:(value){
+                      _submitForm();
+                    },
                     focusNode: _passwordFocusNode,
                   ),
                   CustomBtn(
                     text: "Create Account",
                     onPressed: () {
-                      setState(() {
-                        _registerFormLoading = true;
-                      });
+                      _submitForm();
                     },
                     isLoading: _registerFormLoading,
                     outlineBtn: false,
