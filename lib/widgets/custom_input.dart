@@ -3,8 +3,11 @@ import 'package:flutter_ecommerce_test/constants.dart';
 
 class CustomInput extends StatelessWidget {
   final String hintText;
+  final Function (String) onChanged;
+  final Function (String) onSubmitted;
+  final FocusNode focusNode;
 
-  CustomInput({this.hintText});
+  CustomInput({this.hintText, this.onChanged, this.onSubmitted, this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,9 @@ class CustomInput extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0,)
       ),
       child: TextField(
+        focusNode: focusNode,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText ?? "Hint Text",
