@@ -75,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _registerFormLoading = false;
       });
     } else {
+      //the string was null, user is logged in
       Navigator.pop(context);
     }
   }
