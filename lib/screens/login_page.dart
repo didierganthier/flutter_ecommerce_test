@@ -72,9 +72,6 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _loginFormLoading = false;
       });
-    } else {
-      //the string was null, user is logged in
-      Navigator.pop(context);
     }
   }
 
