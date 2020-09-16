@@ -34,6 +34,8 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  bool _registerFormLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +67,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   CustomBtn(
                     text: "Create Account",
                     onPressed: () {
-                      print("Clicked the Register Button");
+                      setState(() {
+                        _registerFormLoading = true;
+                      });
                     },
+                    isLoading: _registerFormLoading,
                     outlineBtn: false,
                   )
                 ],
