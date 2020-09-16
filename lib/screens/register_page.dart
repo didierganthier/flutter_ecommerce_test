@@ -3,7 +3,37 @@ import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_btn.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_input.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+
+  //Build an alert dialog to display some errors
+  Future<void> _alertDialogBuilder() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Container(
+            child: Text("Just some random text for now"),
+          ),
+          actions: [
+            FlatButton(
+              child: Text("Close Dialog"),
+              onPressed:(){
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
