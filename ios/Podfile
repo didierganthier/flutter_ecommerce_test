@@ -29,6 +29,12 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
+
+  # Add the pods for the Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
