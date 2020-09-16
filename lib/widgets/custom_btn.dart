@@ -5,13 +5,13 @@ class CustomBtn extends StatelessWidget {
   final String text;
   final Function onPressed;
   final bool outlineBtn;
-
-  CustomBtn({this.text, this.onPressed, this.outlineBtn});
+  final bool isLoading;
+  CustomBtn({this.text, this.onPressed, this.outlineBtn, this.isLoading});
 
   @override
   Widget build(BuildContext context) {
-
     bool _outlineBtn = outlineBtn ?? false;
+    bool _isLoading = isLoading ?? false;
 
     return GestureDetector(
       onTap: onPressed,
@@ -19,7 +19,7 @@ class CustomBtn extends StatelessWidget {
         height: 65.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _outlineBtn? Colors.transparent : Colors.black,
+          color: _outlineBtn ? Colors.transparent : Colors.black,
           border: Border.all(
             color: Colors.black,
             width: 2.0,
@@ -30,9 +30,30 @@ class CustomBtn extends StatelessWidget {
           horizontal: 24.0,
           vertical: 8.0,
         ),
-        child: Text(
-          text ?? "Text",
-          style: Constants.regularHeading.copyWith(fontSize: 16.0, color: _outlineBtn? Colors.black : Colors.white),
+        child: Stack(
+          children: [
+            Visibility(
+              visible: _isLoading ? false : true,
+              child: Center(
+                child: Text(
+                  text ?? "Text",
+                  style: Constants.regularHeading.copyWith(
+                      fontSize: 16.0,
+                      color: _outlineBtn ? Colors.black : Colors.white),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _isLoading,
+              child: Center(
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
