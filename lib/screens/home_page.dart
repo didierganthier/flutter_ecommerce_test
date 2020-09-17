@@ -10,11 +10,31 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: Center(
-              child: Text(
-                  "HomePage"
-              ),
+          Expanded(
+            child: PageView(
+              children: [
+                Container(
+                  child: Center(
+                    child: Text(
+                        "Home Page"
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Center(
+                    child: Text(
+                        "Search Page"
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Center(
+                    child: Text(
+                        "Saved Page"
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           BottomTabs(),
