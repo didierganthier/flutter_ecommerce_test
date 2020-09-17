@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_test/tabs/home_tab.dart';
+import 'package:flutter_ecommerce_test/tabs/saved_tab.dart';
+import 'package:flutter_ecommerce_test/tabs/search_tab.dart';
 import 'package:flutter_ecommerce_test/widgets/bottom_tabs.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,27 +40,9 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               children: [
-                Container(
-                  child: Center(
-                    child: Text(
-                        "Home Page"
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Center(
-                    child: Text(
-                        "Search Page"
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Center(
-                    child: Text(
-                        "Saved Page"
-                    ),
-                  ),
-                ),
+                HomeTab(),
+                SearchTab(),
+                SavedTab()
               ],
             ),
           ),
