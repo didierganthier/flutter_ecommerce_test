@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BottomTabs extends StatefulWidget {
+  final int selectedTab;
+  final Function (int) tabsPressed;
+  BottomTabs({this.selectedTab, this.tabsPressed});
+
   @override
   _BottomTabsState createState() => _BottomTabsState();
 }
@@ -10,6 +14,8 @@ class _BottomTabsState extends State<BottomTabs> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedTab = widget.selectedTab ?? 0;
+
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -29,36 +35,28 @@ class _BottomTabsState extends State<BottomTabs> {
             iconData: Icons.home,
             selected: _selectedTab == 0 ? true : false,
             onPressed:(){
-              setState(() {
-                _selectedTab = 0;
-              });
+              widget.tabsPressed(0);
             },
           ),
           BottomTabBtn(
             iconData: Icons.search,
             selected: _selectedTab == 1 ? true : false,
             onPressed:(){
-              setState(() {
-                _selectedTab = 1;
-              });
+              widget.tabsPressed(1);
             },
           ),
           BottomTabBtn(
             iconData: Icons.bookmark_border,
             selected: _selectedTab == 2 ? true : false,
             onPressed:(){
-              setState(() {
-                _selectedTab = 2;
-              });
+              widget.tabsPressed(2);
             },
           ),
           BottomTabBtn(
             iconData: Icons.exit_to_app,
             selected: _selectedTab == 3 ? true : false,
             onPressed:(){
-              setState(() {
-                _selectedTab = 3;
-              });
+
             },
           ),
         ],
