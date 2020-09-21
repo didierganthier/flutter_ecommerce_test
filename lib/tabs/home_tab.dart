@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/screens/product_page.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
 
 class HomeTab extends StatelessWidget {
@@ -34,7 +35,9 @@ class HomeTab extends StatelessWidget {
                   children: snapshot.data.docs.map((document) {
                     return GestureDetector(
                       onTap: () {
-
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ProductPage(productId: document.id,),
+                        ));
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -62,7 +65,7 @@ class HomeTab extends StatelessWidget {
                               left: 0,
                               right: 0,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0, right: 20.0, left: 20.0),
+                                padding: const EdgeInsets.only(right: 24.0, left: 24.0, bottom: 2.0),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
