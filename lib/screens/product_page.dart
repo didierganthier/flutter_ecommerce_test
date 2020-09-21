@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
+import 'package:flutter_ecommerce_test/widgets/image_swipe.dart';
 
 class ProductPage extends StatefulWidget {
   final String productId;
@@ -42,20 +43,7 @@ class _ProductPageState extends State<ProductPage> {
 
                 return ListView(
                   children: [
-                    Container(
-                      height: 400,
-                      child: PageView(
-                        children: [
-                          for(var i = 0; i < imageList.length; i++)
-                            Container(
-                              child: Image.network(
-                                "${imageList[i]}",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
+                    ImageSwipe(imageList: imageList),
                     Padding(
                       padding: EdgeInsets.only(
                         bottom: 4.0,
