@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
@@ -17,6 +18,21 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   final CollectionReference _productsRef =
       FirebaseFirestore.instance.collection("Products");
+
+  final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
+      "Users"); // User -> User ID (Document) -> Cart -> Product ID (Document)
+
+  User _user = FirebaseAuth.instance.currentUser;
+
+  Future _addToCart() {
+    return _usersRef
+        .doc(_user.uid)
+        .collection("Cart")
+        .doc(widget.productId)
+        .set({"size": 1});
+  }
+
+  final SnackBar _snackBar = SnackBar(content: Text("Product added to the cart"));
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +118,9 @@ class _ProductPageState extends State<ProductPage> {
                         style: Constants.boldHeading.copyWith(fontSize: 16),
                       ),
                     ),
-                    ProductSize(productSizes: productSizes,),
+                    ProductSize(
+                      productSizes: productSizes,
+                    ),
                     Padding(
                       padding: EdgeInsets.all(24.0),
                       child: Row(
@@ -116,20 +134,35 @@ class _ProductPageState extends State<ProductPage> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             alignment: Alignment.center,
-                            child: IconButton(icon: Icon(Icons.bookmark, size: 22.0,), onPressed:(){},),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.bookmark_border,
+                                size: 22.0,
+                              ),
+                              onPressed: () {},
+                            ),
                           ),
                           Expanded(
-                            child: Container(
-                              height: 65.0,
-                              margin: EdgeInsets.only(
-                                left: 16.0,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await _addToCart();
+                                Scaffold.of(context).showSnackBar(_snackBar);
+                              },
+                              child: Container(
+                                height: 65.0,
+                                margin: EdgeInsets.only(
+                                  left: 16.0,
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Add To Cart",
+                                  style: Constants.regularHeading.copyWith(
+                                      color: Colors.white, fontSize: 16.0),
+                                ),
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                              alignment: Alignment.center,
-                              child: Text("Add To Cart", style: Constants.regularHeading.copyWith(color: Colors.white, fontSize: 16.0),),
                             ),
                           )
                         ],
