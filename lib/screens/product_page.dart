@@ -24,12 +24,14 @@ class _ProductPageState extends State<ProductPage> {
 
   User _user = FirebaseAuth.instance.currentUser;
 
+  String _selectedProductSize = "0";
+
   Future _addToCart() {
     return _usersRef
         .doc(_user.uid)
         .collection("Cart")
         .doc(widget.productId)
-        .set({"size": 1});
+        .set({"size": _selectedProductSize});
   }
 
   final SnackBar _snackBar = SnackBar(content: Text("Product added to the cart"));
@@ -120,6 +122,9 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     ProductSize(
                       productSizes: productSizes,
+                      onSelected:(size){
+                        _selectedProductSize = size;
+                      },
                     ),
                     Padding(
                       padding: EdgeInsets.all(24.0),
@@ -184,7 +189,7 @@ class _ProductPageState extends State<ProductPage> {
             hasBackArrow: true,
             hasTitle: false,
             hasBackground: false,
-            context: context,
+            
           )
         ],
       ),
