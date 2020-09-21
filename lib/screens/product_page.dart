@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
 import 'package:flutter_ecommerce_test/widgets/image_swipe.dart';
+import 'package:flutter_ecommerce_test/widgets/product_size.dart';
 
 class ProductPage extends StatefulWidget {
   final String productId;
@@ -40,6 +41,9 @@ class _ProductPageState extends State<ProductPage> {
 
                 // List of images
                 List imageList = documentData['images'];
+
+                //List of product sizes
+                List productSizes = documentData['size'];
 
                 return ListView(
                   children: [
@@ -98,6 +102,39 @@ class _ProductPageState extends State<ProductPage> {
                         style: Constants.boldHeading.copyWith(fontSize: 16),
                       ),
                     ),
+                    ProductSize(productSizes: productSizes,),
+                    Padding(
+                      padding: EdgeInsets.all(24.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFDCDCDC),
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: IconButton(icon: Icon(Icons.bookmark, size: 22.0,), onPressed:(){},),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 65.0,
+                              margin: EdgeInsets.only(
+                                left: 16.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(12.0)
+                              ),
+                              alignment: Alignment.center,
+                              child: Text("Add To Cart", style: Constants.regularHeading.copyWith(color: Colors.white, fontSize: 16.0),),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 );
               }
@@ -114,6 +151,7 @@ class _ProductPageState extends State<ProductPage> {
             hasBackArrow: true,
             hasTitle: false,
             hasBackground: false,
+            context: context,
           )
         ],
       ),
