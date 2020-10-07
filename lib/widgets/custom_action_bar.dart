@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/screens/cart_page.dart';
 import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 
 class CustomActionBar extends StatelessWidget {
@@ -73,30 +74,35 @@ class CustomActionBar extends StatelessWidget {
               title ?? "Action Bar",
               style: Constants.boldHeading,
             ),
-          Container(
-            height: 42,
-            width: 42,
-            decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            alignment: Alignment.center,
-            child: StreamBuilder(
-              stream: _usersRef.doc(_firebaseServices.getUserId()).collection("Cart").snapshots(),
-              builder: (context, snapshot) {
-                int _totalItems = 0;
+          GestureDetector(
+            onTap:(){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> CartPage()));
+            },
+            child: Container(
+              height: 42,
+              width: 42,
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              alignment: Alignment.center,
+              child: StreamBuilder(
+                stream: _usersRef.doc(_firebaseServices.getUserId()).collection("Cart").snapshots(),
+                builder: (context, snapshot) {
+                  int _totalItems = 0;
 
-                if(snapshot.connectionState == ConnectionState.active){
-                  List _documents = snapshot.data.docs;
-                  _totalItems = _documents.length;
+                  if(snapshot.connectionState == ConnectionState.active){
+                    List _documents = snapshot.data.docs;
+                    _totalItems = _documents.length;
+                  }
+
+                  return Text(
+                    "$_totalItems" ?? "0",
+                    style: Constants.regularHeading.copyWith(
+                      color: Colors.white,
+                    ),
+                  );
                 }
-
-                return Text(
-                  "$_totalItems" ?? "0",
-                  style: Constants.regularHeading.copyWith(
-                    color: Colors.white,
-                  ),
-                );
-              }
+              ),
             ),
           ),
         ],

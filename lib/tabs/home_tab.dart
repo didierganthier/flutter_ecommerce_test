@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/screens/product_page.dart';
+import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
 
 class HomeTab extends StatelessWidget {
-  final CollectionReference _productsRef =
-  FirebaseFirestore.instance.collection("Products");
+  FirebaseServices _firebaseServices = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class HomeTab extends StatelessWidget {
       child: Stack(
         children: [
           FutureBuilder<QuerySnapshot>(
-            future: _productsRef.get(),
+            future: _firebaseServices.productsRef.get(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Scaffold(
