@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 
 class CustomActionBar extends StatelessWidget {
   final String title;
@@ -17,10 +18,9 @@ class CustomActionBar extends StatelessWidget {
       this.hasBackground,
       this.context});
 
-  final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
-      "Users"); // User -> User ID (Document) -> Cart -> Product ID (Document)
+  FirebaseServices _firebaseServices = FirebaseServices();
 
-  final  User _user = FirebaseAuth.instance.currentUser;
+  final CollectionReference _usersRef = FirebaseFirestore.instance.collection("Users"); // User -> User ID (Document) -> Cart -> Product ID (Document)
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class CustomActionBar extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
             alignment: Alignment.center,
             child: StreamBuilder(
-              stream: _usersRef.doc(_user.uid).collection("Cart").snapshots(),
+              stream: _usersRef.doc(_firebaseServices.getUserId()).collection("Cart").snapshots(),
               builder: (context, snapshot) {
                 int _totalItems = 0;
 

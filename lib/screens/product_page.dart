@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_test/constants.dart';
+import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
 import 'package:flutter_ecommerce_test/widgets/image_swipe.dart';
 import 'package:flutter_ecommerce_test/widgets/product_size.dart';
@@ -16,19 +17,13 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final CollectionReference _productsRef =
-      FirebaseFirestore.instance.collection("Products");
-
-  final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
-      "Users"); // User -> User ID (Document) -> Cart -> Product ID (Document)
-
-  User _user = FirebaseAuth.instance.currentUser;
+  FirebaseServices _firebaseServices = FirebaseServices();
 
   String _selectedProductSize = "0";
 
   Future _addToCart() {
-    return _usersRef
-        .doc(_user.uid)
+    return _firebaseServices.usersRef
+        .doc(_firebaseServices.getUserId())
         .collection("Cart")
         .doc(widget.productId)
         .set({"size": _selectedProductSize});
@@ -42,7 +37,7 @@ class _ProductPageState extends State<ProductPage> {
       body: Stack(
         children: [
           FutureBuilder(
-            future: _productsRef.doc(widget.productId).get(),
+            future: _firebaseServices.productsRef.doc(widget.productId).get(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Scaffold(
