@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 import 'package:flutter_ecommerce_test/tabs/home_tab.dart';
 import 'package:flutter_ecommerce_test/tabs/saved_tab.dart';
 import 'package:flutter_ecommerce_test/tabs/search_tab.dart';
@@ -10,11 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseServices _firebaseServices = FirebaseServices();
+
   int _selectedTab = 0;
   PageController _tabsPageController;
 
   @override
   void initState() {
+    print("UserID: ${_firebaseServices.getUserId()}");
     _tabsPageController = PageController();
     super.initState();
   }
