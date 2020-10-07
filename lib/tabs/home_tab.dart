@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce_test/constants.dart';
 import 'package:flutter_ecommerce_test/screens/product_page.dart';
 import 'package:flutter_ecommerce_test/services/firebase_services.dart';
 import 'package:flutter_ecommerce_test/widgets/custom_action_bar.dart';
+import 'package:flutter_ecommerce_test/widgets/product_card.dart';
 
 class HomeTab extends StatelessWidget {
   FirebaseServices _firebaseServices = FirebaseServices();
@@ -33,62 +34,11 @@ class HomeTab extends StatelessWidget {
                     bottom: 12.0,
                   ),
                   children: snapshot.data.docs.map((document) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ProductPage(productId: document.id,),
-                        ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        height: 350.0,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 24.0,
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 350.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.network(
-                                  "${document.data()['images'][0]}",
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 24.0, left: 24.0, bottom: 2.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      document.data()['name'] ?? "Product Name",
-                                      style: Constants.regularHeading,
-                                    ),
-                                    Text(
-                                      "\$${document.data()['price']}" ?? "Price",
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Theme.of(context).accentColor,
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                    return ProductCard(
+                      title: document.data()['name'],
+                      imageUrl: document.data()['images'][0],
+                      price: document.data()['price'].toString(),
+                      productID: document.id,
                     );
                   }).toList(),
                 );
